@@ -1,0 +1,55 @@
+<!-- News & updates – POCUS 2027. Paste into ONE "Embed code" element (full width). The news posts load automatically from github.com/neonataltraining/pocus-news (news.json). -->
+<style>
+.nw27{--navy:#102A43;--teal:#2F7D7A;--lt:#5A9E98;--soft:#F3F8F8;--line:#C9DEDD;font-family:Calibri,"Segoe UI",Arial,sans-serif;color:#1F2933;background:#fff;line-height:1.5}
+.nw27 *{box-sizing:border-box}
+.nw27 .hero{background:var(--navy);color:#fff;text-align:center;padding:44px 16px 36px}
+.nw27 .hero h1{margin:0;font-size:42px;color:#fff;line-height:1.15}
+.nw27 .hero p{margin:8px 0 0;color:#94C5C4;font-size:19px}
+.nw27 .w{max-width:1040px;margin:0 auto;padding:34px 16px 10px}
+.nw27 .lead{font-size:17px;color:#52606D;margin:0 0 22px;max-width:760px}
+.nw27 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.nw27 .d{background:var(--soft);border:1px solid var(--line);border-top:4px solid var(--teal);border-radius:8px;padding:16px 18px}
+.nw27 .d span{display:block;color:var(--teal);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.6px}
+.nw27 .d b{display:block;color:var(--navy);font-size:20px;margin-top:2px}
+.nw27 .q{margin:22px 0 0;font-size:15px;color:#52606D}
+.nw27 .q a{color:var(--teal);font-weight:700}
+.nw27 h2{font-size:28px;margin:34px 0 0;color:var(--navy);border-bottom:2px solid var(--line);padding-bottom:8px}
+.nw27 .posts{display:flex;flex-direction:column;gap:18px;margin:20px 0 40px}
+.nw27 .post{border:1px solid var(--line);border-left:5px solid var(--teal);border-radius:0 8px 8px 0;padding:18px 22px;background:#fff}
+.nw27 .post time{color:var(--teal);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.6px}
+.nw27 .post h3{margin:4px 0 8px;font-size:21px;color:var(--navy);line-height:1.3}
+.nw27 .post p{margin:0;font-size:16px;color:#3d4b5c;white-space:pre-line}
+.nw27 .post a{display:inline-block;margin-top:10px;color:var(--teal);font-weight:700}
+.nw27 .empty{color:#52606D;font-size:15px}
+@media(max-width:760px){.nw27 .g3{grid-template-columns:1fr}.nw27 .hero h1{font-size:32px}}
+</style>
+<div class="nw27">
+ <div class="hero"><h1>News &amp; updates</h1><p>Neonatal Hemodynamics &amp; POCUS · 31 May – 3 June 2027 · Gothenburg</p></div>
+ <div class="w">
+  <p class="lead">The latest news about the course from the organizing team: speakers, programme updates, registration and practical information.</p>
+  <div class="g3">
+   <div class="d"><span>Registration opens</span><b>1 November 2026</b></div>
+   <div class="d"><span>Early bird until</span><b>28 February 2027</b></div>
+   <div class="d"><span>Course dates</span><b>31 May – 3 June 2027</b></div>
+  </div>
+  <p class="q">Questions about the course? Write to us at <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#105;&#110;&#102;&#111;&#64;&#110;&#101;&#111;&#110;&#97;&#116;&#97;&#108;&#116;&#114;&#97;&#105;&#110;&#105;&#110;&#103;&#46;&#111;&#114;&#103;">&#105;&#110;&#102;&#111;&#64;&#110;&#101;&#111;&#110;&#97;&#116;&#97;&#108;&#116;&#114;&#97;&#105;&#110;&#105;&#110;&#103;&#46;&#111;&#114;&#103;</a><br>Questions about registration and payment? Contact Commee AB at <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#115;&#116;&#101;&#102;&#97;&#110;&#64;&#99;&#111;&#109;&#109;&#101;&#101;&#46;&#115;&#101;">&#115;&#116;&#101;&#102;&#97;&#110;&#64;&#99;&#111;&#109;&#109;&#101;&#101;&#46;&#115;&#101;</a></p>
+  <h2>Latest news</h2>
+  <div class="posts" id="nw27posts"><p class="empty">Loading news…</p></div>
+ </div>
+</div>
+<script>
+(function(){
+ var box=document.getElementById('nw27posts');
+ var M=['January','February','March','April','May','June','July','August','September','October','November','December'];
+ function esc(t){return String(t||'').replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+ fetch('https://raw.githubusercontent.com/neonataltraining/pocus-news/main/news.json?t='+Date.now()).then(function(r){return r.json()}).then(function(list){
+  list.sort(function(a,b){return (b.date||'').localeCompare(a.date||'')});
+  if(!list.length){box.innerHTML='<p class="empty">No news yet. Check back soon!</p>';return}
+  box.innerHTML=list.map(function(p){
+   var d=(p.date||'').split('-'),ds=d.length==3?(+d[2])+' '+M[+d[1]-1]+' '+d[0]:'';
+   var l=p.link&&/^https:\/\//.test(p.link)?'<a href="'+esc(p.link)+'" target="_blank" rel="noopener">'+esc(p.linkText||'Read more')+' →</a>':'';
+   return '<article class="post"><time>'+ds+'</time><h3>'+esc(p.title)+'</h3><p>'+esc(p.text)+'</p>'+l+'</article>';
+  }).join('');
+ }).catch(function(){box.innerHTML='<p class="empty">News could not be loaded right now. Please try again later.</p>'});
+})();
+</script>

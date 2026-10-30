@@ -1,0 +1,46 @@
+<!-- Our sponsors – POCUS 2027. Paste into ONE "Embed code" element (full width). Sponsors come from sponsors.json on GitHub (ask Claude to add or remove one). -->
+<style>
+.sp27{--navy:#102A43;--teal:#2F7D7A;--lt:#5A9E98;--soft:#F3F8F8;--line:#C9DEDD;font-family:Calibri,"Segoe UI",Arial,sans-serif;color:#1F2933;background:#fff;line-height:1.55}
+.sp27 *{box-sizing:border-box}
+.sp27 .hero{background:var(--navy);color:#fff;text-align:center;padding:44px 16px 36px}
+.sp27 .hero h1{margin:0;font-size:42px;color:#fff;line-height:1.15}
+.sp27 .hero p{margin:8px 0 0;color:#94C5C4;font-size:19px}
+.sp27 .w{max-width:1040px;margin:0 auto;padding:36px 16px 44px}
+.sp27 .lead{text-align:center;max-width:700px;margin:0 auto 26px;font-size:17px;color:#3d4b5c}
+.sp27 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.sp27 .sp{background:#fff;border:1px solid var(--line);border-top:4px solid var(--teal);border-radius:8px;min-height:140px;display:flex;align-items:center;justify-content:center;padding:20px;text-decoration:none;text-align:center}
+.sp27 a.sp:hover{box-shadow:0 4px 14px rgba(16,42,67,.12)}
+.sp27 .sp img{max-width:100%;max-height:90px;object-fit:contain}
+.sp27 .sp span{font-size:24px;font-weight:700;color:var(--navy)}
+.sp27 .join{margin-top:30px;background:var(--navy);color:#fff;border-radius:8px;padding:24px 26px;text-align:center}
+.sp27 .join h3{margin:0 0 6px;color:#fff;font-size:22px}
+.sp27 .join p{margin:0 auto 16px;max-width:700px;color:#D9E8E8;font-size:16px}
+.sp27 .btn{display:inline-block;background:var(--teal);color:#fff !important;text-decoration:none;padding:13px 24px;border-radius:6px;font-weight:700;font-size:16px}
+.sp27 .btn:hover{background:var(--lt)}
+@media(max-width:760px){.sp27 .hero h1{font-size:32px}}
+</style>
+<div class="sp27">
+ <div class="hero"><h1>Our sponsors</h1><p>Neonatal Hemodynamics &amp; POCUS · 31 May – 3 June 2027 · Gothenburg</p></div>
+ <div class="w">
+  <p class="lead">A big thank you to our sponsors. Their support and equipment make the hands-on training possible and help us keep the course fee low.</p>
+  <div class="grid" id="sp27list"></div>
+  <div class="join">
+   <h3>Want to become a sponsor?</h3>
+   <p>Meet neonatologists, nurses and sonographers from across Europe and beyond, and support hands-on POCUS training. We are happy to send you our sponsorship packages.</p>
+   <a class="btn" href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#105;&#110;&#102;&#111;&#64;&#110;&#101;&#111;&#110;&#97;&#116;&#97;&#108;&#116;&#114;&#97;&#105;&#110;&#105;&#110;&#103;&#46;&#111;&#114;&#103;">Contact us: &#105;&#110;&#102;&#111;&#64;&#110;&#101;&#111;&#110;&#97;&#116;&#97;&#108;&#116;&#114;&#97;&#105;&#110;&#105;&#110;&#103;&#46;&#111;&#114;&#103;</a>
+  </div>
+ </div>
+</div>
+<script>
+(function(){
+ var box=document.getElementById('sp27list');
+ function esc(t){return String(t||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+ fetch('https://raw.githubusercontent.com/neonataltraining/pocus-news/main/sponsors.json?t='+Date.now()).then(function(r){return r.json()}).then(function(list){
+  box.innerHTML=list.map(function(s){
+   var inner=s.logo?'<img src="'+esc(s.logo)+'" alt="'+esc(s.name)+'">':'<span>'+esc(s.name)+'</span>';
+   var st=s.bg?' style="background:'+esc(s.bg)+'"':'';
+   return s.url?'<a class="sp"'+st+' href="'+esc(s.url)+'" target="_blank" rel="noopener">'+inner+'</a>':'<div class="sp"'+st+'>'+inner+'</div>';
+  }).join('');
+ }).catch(function(){box.style.display='none'});
+})();
+</script>
