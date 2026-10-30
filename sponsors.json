@@ -1,4 +1,13 @@
 [
-  {"name": "Echocom", "logo": "", "url": ""},
-  {"name": "Mindray / Colligo", "logo": "", "url": ""}
+  {
+    "name": "Echocom",
+    "logo": "https://raw.githubusercontent.com/neonataltraining/pocus-news/main/logos/echocom.png",
+    "url": "",
+    "bg": "#717171"
+  },
+  {
+    "name": "Mindray / Colligo",
+    "logo": "",
+    "url": ""
+  }
 ]
