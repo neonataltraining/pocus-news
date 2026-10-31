@@ -106,7 +106,7 @@
  document.querySelectorAll('.rg27 a[data-reg]').forEach(function(a){
   a.setAttribute('data-label2',a.textContent.replace('Register – ',''));
   if(open){a.href='https://www.trippus.net/'+a.getAttribute('data-reg');
-   a.addEventListener('click',function(){try{navigator.sendBeacon('https://ntfy.sh/pocus27-reg-360b059e6c',new Blob(['Registration click: '+a.getAttribute('data-label2')],{type:'text/plain'}))}catch(e){}});}
+   a.addEventListener('click',function(){try{navigator.sendBeacon('https://ntfy.sh/pocus27-reg-360b059e6c',new Blob(['Registration click: '+a.getAttribute('data-label2')+' · from '+((Intl.DateTimeFormat().resolvedOptions().timeZone||'?').replace(/_/g,' '))],{type:'text/plain'}))}catch(e){}});}
   else{a.removeAttribute('href');a.classList.add('wait');a.setAttribute('data-label',a.textContent);a.textContent='Opens 3 November';}
  });
 })();
