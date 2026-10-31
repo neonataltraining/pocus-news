@@ -60,6 +60,7 @@ def summary(days=7):
     print(body)
     req = urllib.request.Request(SUMMARY, data=body.encode(), headers={"Title": "POCUS 2027 website: weekly visitors"})
     urllib.request.urlopen(req, timeout=30)
+    open("data/last-summary.txt", "w").write(time.strftime("%Y-%m-%d %H:%M UTC\n", time.gmtime()))
 
 if __name__ == "__main__":
     {"collect": collect, "summary": summary}[sys.argv[1]]()
