@@ -1,7 +1,7 @@
 name: Visitor summary
 on:
   schedule:
-    - cron: "17 */6 * * *"   # collect visits every 6 hours
+    - cron: "17 */2 * * *"   # collect visits every 2 hours (ntfy keeps them 12 h)
     - cron: "0 7 * * 1"      # weekly summary, Monday 08:00/09:00 Swedish time
   workflow_dispatch:
     inputs:

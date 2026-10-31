@@ -45,18 +45,43 @@ def collect():
             f.write(json.dumps(v, ensure_ascii=False) + "\n")
     print(len(new), "new visits")
 
+def local(v):
+    """Visit time in the visitor's own time zone (falls back to Swedish time)."""
+    from datetime import datetime, timezone
+    from zoneinfo import ZoneInfo
+    for name in (v["tz"].replace(" ", "_"), "Europe/Stockholm"):
+        try:
+            return datetime.fromtimestamp(v["time"], timezone.utc).astimezone(ZoneInfo(name))
+        except Exception:
+            pass
+
+def bar(n, top):
+    return "\u2588" * max(1, round(8 * n / top)) if n else ""
+
 def summary(days=7):
     tz = countries()
     since = time.time() - days * 86400
     week = [v for v in load() if v["time"] >= since]
-    by = Counter(tz.get(v["tz"].replace(" ", "_"), v["tz"]) for v in week)
-    pages = Counter(v["page"] for v in week)
-    if week:
-        lines = [f"{len(week)} visits in the last 7 days", ""] + [f"{c}: {k}" for c, k in by.most_common()]
-        lines += ["", "Most visited first page: " + ", ".join(f"{p} ({k})" for p, k in pages.most_common(3))]
+    if not week:
+        body = "No visits in the last 7 days."
     else:
-        lines = ["No visits in the last 7 days."]
-    body = "\n".join(lines)
+        by = Counter(tz.get(v["tz"].replace(" ", "_"), v["tz"]) for v in week)
+        times = [local(v) for v in week]
+        names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+        wd = Counter(t.weekday() for t in times)
+        slots = [("Night 00-06", 0, 6), ("Morning 06-12", 6, 12), ("Afternoon 12-18", 12, 18), ("Evening 18-24", 18, 24)]
+        sl = Counter(next(n for n, a, b in slots if a <= t.hour < b) for t in times)
+        pages = Counter(v["page"] for v in week)
+        lines = [f"{len(week)} visits in the last 7 days", "", "COUNTRY"]
+        lines += [f"{c}: {k}" for c, k in by.most_common()]
+        lines += ["", "DAY OF THE WEEK"]
+        top = max(wd.values())
+        lines += [f"{names[d]}: {wd[d]} {bar(wd[d], top)}" for d in range(7)]
+        lines += ["", "TIME OF DAY (visitor's local time)"]
+        top = max(sl.values())
+        lines += [f"{n}: {sl[n]} {bar(sl[n], top)}" for n, a, b in slots]
+        lines += ["", "First page: " + ", ".join(f"{p} ({k})" for p, k in pages.most_common(3))]
+        body = "\n".join(lines)
     print(body)
     req = urllib.request.Request(SUMMARY, data=body.encode(), headers={"Title": "POCUS 2027 website: weekly visitors"})
     urllib.request.urlopen(req, timeout=30)
