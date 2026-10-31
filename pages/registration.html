@@ -104,7 +104,9 @@
  /* Registration buttons open on 3 November 2026, 00:00 Swedish time */
  var open=Date.now()>=Date.UTC(2026,10,2,23,0,0);
  document.querySelectorAll('.rg27 a[data-reg]').forEach(function(a){
-  if(open){a.href='https://www.trippus.net/'+a.getAttribute('data-reg');}
+  a.setAttribute('data-label2',a.textContent.replace('Register – ',''));
+  if(open){a.href='https://www.trippus.net/'+a.getAttribute('data-reg');
+   a.addEventListener('click',function(){try{navigator.sendBeacon('https://ntfy.sh/pocus27-reg-360b059e6c',new Blob(['Registration click: '+a.getAttribute('data-label2')],{type:'text/plain'}))}catch(e){}});}
   else{a.removeAttribute('href');a.classList.add('wait');a.setAttribute('data-label',a.textContent);a.textContent='Opens 3 November';}
  });
 })();
