@@ -20,6 +20,6 @@ mailto = "mailto:" + TO + "?" + urllib.parse.urlencode({"subject": SUBJECT, "bod
 msg = ("Skicka användaravtalet till Stefan idag. Tryck för att öppna mejlet.\n"
        "Bifoga: POCUS_2027_User_Agreement_marked_changes.pdf och POCUS_2027_User_Agreement.pdf (i Hämtade filer).")
 req = urllib.request.Request(TOPIC, data=msg.encode(), headers={
-    "Title": "Mejla Commee: användaravtalet", "Priority": "high", "Tags": "memo", "Click": mailto})
+    "Title": "Mejla Commee: användaravtalet", "At": "1793602800", "Priority": "high", "Tags": "memo", "Click": mailto})
 urllib.request.urlopen(req, timeout=30)
 print("sent")
