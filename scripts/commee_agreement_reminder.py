@@ -2,7 +2,7 @@
 import urllib.parse, urllib.request
 
 TOPIC = "https://ntfy.sh/pocus27-weekly-d2ea349b"
-TO = "stefan.wengelin@commee.se"
+TO = "stefan@commee.se"
 SUBJECT = "Uppdaterat användaravtal POCUS 2027"
 BODY = """Hej Stefan!
 
@@ -20,6 +20,6 @@ mailto = "mailto:" + TO + "?" + urllib.parse.urlencode({"subject": SUBJECT, "bod
 msg = ("Skicka användaravtalet till Stefan idag. Tryck för att öppna mejlet.\n"
        "Bifoga: POCUS_2027_User_Agreement_marked_changes.pdf och POCUS_2027_User_Agreement.pdf (i Hämtade filer).")
 req = urllib.request.Request(TOPIC, data=msg.encode(), headers={
-    "Title": "Mejla Commee: användaravtalet", "At": "1793602800", "Priority": "high", "Tags": "memo", "Click": mailto})
-urllib.request.urlopen(req, timeout=30)
+    "Title": "Mejla Commee: användaravtalet (rätt adress)", "At": "1793602860", "Priority": "high", "Tags": "memo", "Click": mailto})
+print(urllib.request.urlopen(req, timeout=30).read().decode())
 print("sent")

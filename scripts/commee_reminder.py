@@ -2,7 +2,7 @@
 import urllib.parse, urllib.request
 
 TOPIC = "https://ntfy.sh/pocus27-weekly-d2ea349b"
-TO = "stefan.wengelin@commee.se"
+TO = "stefan@commee.se"
 SUBJECT = "Byta till ordinarie pris i Trippus – POCUS 2027"
 BODY = """Hej Stefan!
 
