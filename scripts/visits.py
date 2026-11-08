@@ -8,7 +8,9 @@ from collections import Counter
 
 VISITS = "https://ntfy.sh/pocus27-visits-d2ea349b"
 SUMMARY = "https://ntfy.sh/pocus27-weekly-d2ea349b"
+REG = "https://ntfy.sh/pocus27-reg-360b059e6c"
 LOG = "data/visits.jsonl"
+REGLOG = "data/reg-clicks.jsonl"
 ZI = "/usr/share/zoneinfo/"
 
 def countries():
@@ -24,10 +26,26 @@ def countries():
             tz[p[2].strip()] = names.get(p[0], p[0])
     return tz
 
-def load():
-    if not os.path.exists(LOG):
+def load(path=LOG):
+    if not os.path.exists(path):
         return []
-    return [json.loads(l) for l in open(LOG, encoding="utf-8") if l.strip()]
+    return [json.loads(l) for l in open(path, encoding="utf-8") if l.strip()]
+
+def collect_reg():
+    seen = {v["id"] for v in load(REGLOG)}
+    raw = urllib.request.urlopen(REG + "/json?poll=1&since=12h", timeout=30).read().decode()
+    new = []
+    for line in raw.splitlines():
+        m = json.loads(line)
+        if m.get("event") != "message" or m["id"] in seen:
+            continue
+        t = re.search(r"Registration click: (.+?) · from (.+)", m.get("message", ""))
+        if t:
+            new.append({"id": m["id"], "time": m["time"], "type": t.group(1).strip(), "tz": t.group(2).strip()})
+    with open(REGLOG, "a", encoding="utf-8") as f:
+        for v in new:
+            f.write(json.dumps(v, ensure_ascii=False) + "\n")
+    print(len(new), "new registration clicks")
 
 def collect():
     seen = {v["id"] for v in load()}
@@ -44,6 +62,7 @@ def collect():
         for v in new:
             f.write(json.dumps(v, ensure_ascii=False) + "\n")
     print(len(new), "new visits")
+    collect_reg()
 
 def local(v):
     """Visit time in the visitor's own time zone (falls back to Swedish time)."""
@@ -82,6 +101,12 @@ def summary(days=7):
         lines += [f"{n}: {sl[n]} {bar(sl[n], top)}" for n, a, b in slots]
         lines += ["", "First page: " + ", ".join(f"{p} ({k})" for p, k in pages.most_common(3))]
         body = "\n".join(lines)
+    reg = [v for v in load(REGLOG) if v["time"] >= since]
+    rl = ["", f"REGISTRATION CLICKS: {len(reg)}"]
+    if reg:
+        rl += [f"{t}: {k}" for t, k in Counter(v["type"] for v in reg).most_common()]
+        rl += ["From: " + ", ".join(f"{c} ({k})" for c, k in Counter(tz.get(v["tz"].replace(" ", "_"), v["tz"]) for v in reg).most_common())]
+    body += "\n" + "\n".join(rl)
     print(body)
     req = urllib.request.Request(SUMMARY, data=body.encode(), headers={"Title": "POCUS 2027 website: weekly visitors"})
     urllib.request.urlopen(req, timeout=30)
