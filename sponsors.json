@@ -1,13 +1,23 @@
 [
   {
-    "name": "Echocom",
-    "logo": "https://raw.githubusercontent.com/neonataltraining/pocus-news/main/logos/echocom.png",
-    "url": "",
-    "bg": "#717171"
+    "name": "GE HealthCare",
+    "logo": "https://raw.githubusercontent.com/neonataltraining/pocus-news/main/logos/gehc.png",
+    "url": ""
+  },
+  {
+    "name": "Philips",
+    "logo": "https://raw.githubusercontent.com/neonataltraining/pocus-news/main/logos/philips.png",
+    "url": ""
   },
   {
     "name": "Mindray / Colligo",
     "logo": "https://raw.githubusercontent.com/neonataltraining/pocus-news/main/logos/mindray.png",
     "url": ""
+  },
+  {
+    "name": "Echocom",
+    "logo": "https://raw.githubusercontent.com/neonataltraining/pocus-news/main/logos/echocom.png",
+    "url": "",
+    "bg": "#717171"
   }
 ]
