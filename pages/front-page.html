@@ -103,6 +103,40 @@
  }).catch(function(){});
 })();
 </script>
+<!-- sponsor strip -->
+<style>
+.ss27{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#F3F8F8;border-top:1px solid #C9DEDD;border-bottom:1px solid #C9DEDD;padding:26px 16px 22px;text-align:center}
+.ss27 *{box-sizing:border-box}
+.ss27 .h{margin:0 0 16px;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#2F7D7A}
+.ss27 .row{max-width:1040px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:14px 18px}
+.ss27 .lg{display:flex;align-items:center;justify-content:center;width:170px;height:78px;background:#fff;border:1px solid #C9DEDD;border-radius:8px;padding:12px 16px;text-decoration:none}
+.ss27 a.lg:hover{box-shadow:0 4px 12px rgba(16,42,67,.12)}
+.ss27 .lg img{max-width:100%;max-height:52px;object-fit:contain}
+.ss27 .lg span{font-weight:700;color:#102A43;font-size:16px}
+.ss27 .more{display:inline-block;margin-top:14px;font-size:14px;font-weight:700;color:#2F7D7A;text-decoration:none}
+.ss27 .more:hover{text-decoration:underline}
+@media(max-width:480px){.ss27 .lg{width:140px;height:66px}}
+</style>
+<div class="ss27" id="ss27" style="display:none">
+ <p class="h">Supported by</p>
+ <div class="row" id="ss27row"></div>
+ <a class="more" href="https://neonataltraining.org/our-sponsors" target="_top">Meet our sponsors →</a>
+</div>
+<script>
+(function(){
+ var wrap=document.getElementById('ss27'),row=document.getElementById('ss27row');
+ function esc(t){return String(t||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+ fetch('https://raw.githubusercontent.com/neonataltraining/pocus-news/main/sponsors.json?t='+Date.now()).then(function(r){return r.json()}).then(function(list){
+  if(!list.length)return;
+  row.innerHTML=list.map(function(s){
+   var inner=s.logo?'<img src="'+esc(s.logo)+'" alt="'+esc(s.name)+'" loading="lazy">':'<span>'+esc(s.name)+'</span>';
+   var st=s.bg?' style="background:'+esc(s.bg)+'"':'';
+   return s.url?'<a class="lg"'+st+' href="'+esc(s.url)+'" target="_blank" rel="noopener" title="'+esc(s.name)+'">'+inner+'</a>':'<div class="lg"'+st+' title="'+esc(s.name)+'">'+inner+'</div>';
+  }).join('');
+  wrap.style.display='';
+ }).catch(function(){});
+})();
+</script>
 <!-- nx27 --><style>.nx27{font-family:Calibri,"Segoe UI",Arial,sans-serif;max-width:1040px;margin:36px auto 28px;padding:0 16px}.nx27 .in{background:#F3F8F8;border:1px solid #C9DEDD;border-radius:10px;padding:22px 20px;text-align:center}.nx27 .t{font-size:20px;font-weight:700;color:#102A43;margin:0 0 4px}.nx27 .s{font-size:15px;color:#3d4b5c;margin:0 0 14px}.nx27 .r{display:inline-block;background:#2F7D7A;color:#fff !important;text-decoration:none;font-weight:700;font-size:16px;padding:12px 26px;border-radius:6px;margin-bottom:14px}.nx27 .r:hover{background:#246663}.nx27 .l{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 20px}.nx27 .l a{color:#2F7D7A;font-weight:700;font-size:15px;text-decoration:none}.nx27 .l a:hover{text-decoration:underline}</style><div class="nx27"><div class="in"><p class="t">Neonatal Hemodynamics &amp; POCUS 2027</p><p class="s">31 May – 3 June 2027 · Gothenburg, Sweden</p><a class="r" href="https://neonataltraining.org/registration" target="_top">Register now</a><div class="l"><a href="https://neonataltraining.org/program" target="_top">Programme</a><a href="https://neonataltraining.org/venueandtravel" target="_top">Venue &amp; Travel</a><a href="https://neonataltraining.org/gothenburg" target="_top">About Gothenburg</a><a href="https://neonataltraining.org/our-sponsors" target="_top">Sponsors</a><a href="https://neonataltraining.org/more" target="_top">About us</a><a href="https://neonataltraining.org/news" target="_top">News</a></div></div></div><!-- /nx27 -->
 <script>(function(){if(Date.now()<Date.UTC(2026,10,2,23,0,0))return;document.querySelectorAll("[data-after]").forEach(function(e){e.textContent=e.getAttribute("data-after")})})();</script>
 <script>(function(){try{if(sessionStorage.getItem('nt27v'))return;sessionStorage.setItem('nt27v','1');var tz=(Intl.DateTimeFormat().resolvedOptions().timeZone||'?').replace(/_/g,' ');navigator.sendBeacon('https://ntfy.sh/pocus27-visits-d2ea349b',new Blob(['Visitor from '+tz+' · language '+(navigator.language||'?')+' · first page: front-page'],{type:'text/plain'}))}catch(e){}})();</script>
