@@ -13,6 +13,16 @@ LOG = "data/visits.jsonl"
 REGLOG = "data/reg-clicks.jsonl"
 ZI = "/usr/share/zoneinfo/"
 
+def fetch(url):
+    # ntfy.sh is sometimes briefly unreachable from the runner; retry before failing
+    for i in range(3):
+        try:
+            return urllib.request.urlopen(url, timeout=30).read().decode()
+        except OSError:
+            if i == 2:
+                raise
+            time.sleep(30)
+
 def countries():
     names = {}
     for line in open(ZI + "iso3166.tab", encoding="utf-8"):
@@ -33,7 +43,7 @@ def load(path=LOG):
 
 def collect_reg():
     seen = {v["id"] for v in load(REGLOG)}
-    raw = urllib.request.urlopen(REG + "/json?poll=1&since=12h", timeout=30).read().decode()
+    raw = fetch(REG + "/json?poll=1&since=12h")
     new = []
     for line in raw.splitlines():
         m = json.loads(line)
@@ -49,7 +59,7 @@ def collect_reg():
 
 def collect():
     seen = {v["id"] for v in load()}
-    raw = urllib.request.urlopen(VISITS + "/json?poll=1&since=12h", timeout=30).read().decode()
+    raw = fetch(VISITS + "/json?poll=1&since=12h")
     new = []
     for line in raw.splitlines():
         m = json.loads(line)
